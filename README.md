@@ -2,15 +2,12 @@
 
 Palette Ace - Build, curate, and export colour palettes
 
-Uses Appwrite
-`http://134.122.50.123/console`
+## Resources
 
-
-## How's it made?
-
- + Run the Vue3 wizard with `npm init vue@latest`
- + Remove the cruft
- + Add tachyons.css into `/public`
+ + Appwrite `http://134.122.50.123/console`
+ + [Demo todo with vue](https://github.dev/appwrite/demo-todo-with-vue/blob/main/src/api/index.js)
+ + [Built from Ste's Vue3 starter](https://github.com/SteGriff/ste-vue-3)
+ + [Kinopio board (private)](https://kinopio.club/shade-toucan-9fGD4TQJJgFIBQ_L0YCk_)
 
 ## Dev
 
