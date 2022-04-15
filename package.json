@@ -10,7 +10,8 @@
   "dependencies": {
     "appwrite": "^7.0.0",
     "pinia": "^2.0.13",
-    "vue": "^3.2.31"
+    "vue": "^3.2.31",
+    "vue3-colorpicker": "^2.0.4"
   },
   "devDependencies": {
     "@types/node": "^16.11.26",
