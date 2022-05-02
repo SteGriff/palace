@@ -8,23 +8,19 @@ export interface IAppState {
     username: string
     palettes: Palette[],
     selectedPalette : number,
-    selectedColour : number,
-    editingPalette: Palette | null,
-    editingColour: string | null
+    selectedColour : number
 }
 
 export const usePalaceStore = defineStore('main', {
     state: () => ({
         session: null,
-        username: 'friend',
+        username: 'anon',
         palettes: [newPalette()],
         selectedPalette : 0,
-        selectedColour : 0,
-        editingPalette: null,
-        editingColour: null
+        selectedColour : 0
     } as IAppState),
     getters: {
-        //double: (state) => state.count * 2,
+        isAnon : (state) => state.username === 'anon',
     },
     actions: {
         async startAnonSession() {
@@ -39,8 +35,12 @@ export const usePalaceStore = defineStore('main', {
             console.log("edit", paletteIndex, colourIndex);
             this.selectedPalette = paletteIndex;
             this.selectedColour = colourIndex;
-            // this.editingPalette = palette;
-            // this.editingColour = palette.colours[colourIndex];
+        },
+        addPalette() {
+            this.palettes.push(newPalette('Sparkly'));
+        },
+        save() {
+            
         }
         // increment() {
         //     this.count++

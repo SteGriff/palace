@@ -10,6 +10,7 @@
   "dependencies": {
     "appwrite": "^7.0.0",
     "colord": "^2.9.2",
+    "friendly-words": "^1.2.0",
     "pinia": "^2.0.13",
     "vue": "^3.2.31",
     "vue3-colorpicker": "^2.0.4"

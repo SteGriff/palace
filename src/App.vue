@@ -26,13 +26,56 @@ const setHexColour = (event, pix, cix) => {
   store.palettes[pix].colours[cix] = newColour;
 }
 
+const newPalette = () => {
+  store.addPalette();
+}
+
 </script>
 
 <template>
-  <main class="sans-serif ph2 flex">
-    <div class="flex-auto">
-      <div v-for="(p, pix) in store.palettes" :key="pix" class="mv3">
-        <h2>{{ p.name }}</h2>
+  <header class="sans-serif w-100 pa3 ph3-ns bg-white bb bw2">
+    <div class="db dt-ns mw9 center w-100">
+      <div class="db dtc-ns v-mid tl">
+        🏯
+      </div>
+      <div class="db dtc-ns v-mid tl">
+        <a href="/" class="dib f5 f4-ns fw6 mt0 mb1 link black-70" title="Home">
+          Palace
+        </a>
+      </div>
+      <div class="db dtc-ns v-mid tl tr-ns mt2 mt0-ns">
+        <span class="f6 ttu black-70 mr1 dib">
+          Account
+        </span>
+
+        <span>
+          <input ng-model="username" type="text" placeholder="username" class="pa1 ph2 h2
+            b--black-60 black-80 bg-white bw1 ba" />
+
+          <input ng-model="password" type="password" placeholder="password" class="pa1 ph2 h2
+            b--black-60 black-80 bg-white bw1 ba" />
+
+          <button type="button" 
+              class="dib mv1 pa1 ph3 h2 w4
+              b--black-80 black-80 bg-white bw1 ba
+              b pointer">
+            Login
+          </button>
+
+          <button type="button" v-if="store.isAnon"
+              class="dib mv1 pa1 ph3 h2
+              b--black-80 black-80 bg-white bw1 ba
+              b pointer">
+            Register
+          </button>
+        </span>
+      </div>
+    </div>
+  </header>
+  <main class="sans-serif ph2">
+      <div v-for="(p, pix) in store.palettes" :key="pix" class="mv3 flex">
+        <p class="f6 b mh2">{{pix}}</p>
+        <p class="mh2"><input v-model="p.name" class="input-reset ba b--black "></p>
 
         <!-- Chips -->
         <div class="flex w-100">
@@ -47,7 +90,6 @@ const setHexColour = (event, pix, cix) => {
               <input class="input-reset bg-transparent bn w3"
                 :value="c.toHex()" 
                 @input="setHexColour($event, pix, cix)">
-              <!-- {{ c.toHex() }} -->
             </span>
             <div class="color-picker-shim">
               <color-picker 
@@ -58,22 +100,13 @@ const setHexColour = (event, pix, cix) => {
           </div>
         </div>
 
-        <!-- Editor -->
-        <div class="mv2">
-          <!-- {{store.editingPalette?.name}} -->
-<!--          
-          <color-picker
-            :pureColor="store.palettes[store.selectedPalette].colours[store.selectedColour]"
-            @update:pureColor="setColor($event)"
-            /> -->
-        </div>
       </div>
 
-      <button type="button" class="bn white pointer br3 ph3 pv2 f6 db center tc bg-purple">Create</button>
-    </div>
-    <div class="flex-auto pv3">
-      Export
-    </div>
+      <button
+        type="button"
+        class="bn white pointer br3 ph3 pv2 f6 db center tc bg-purple"
+        @click="newPalette()"
+        >+ Add</button>
   </main>
 </template>
 <style>
