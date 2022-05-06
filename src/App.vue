@@ -8,7 +8,7 @@ import {colord} from 'colord';
 const store = usePalaceStore();
 
 onMounted(() => {
-  store.startAnonSession();
+  store.resolveSession();
 });
 
 const setColour = (event, pix, cix) => {
@@ -33,7 +33,7 @@ const newPalette = () => {
 </script>
 
 <template>
-  <header class="sans-serif w-100 pa3 ph3-ns bg-white bb bw2">
+  <header class="w-100 pa3 ph3-ns bg-white bb bw2">
     <div class="db dt-ns mw9 center w-100">
       <div class="db dtc-ns v-mid tl">
         🏯
@@ -44,35 +44,63 @@ const newPalette = () => {
         </a>
       </div>
       <div class="db dtc-ns v-mid tl tr-ns mt2 mt0-ns">
+        <template v-if="store.isAnon">
         <span class="f6 ttu black-70 mr1 dib">
           Account
         </span>
 
         <span>
-          <input ng-model="username" type="text" placeholder="username" class="pa1 ph2 h2
-            b--black-60 black-80 bg-white bw1 ba" />
+          <input 
+            v-model="store.email"
+            v-if="!store.loggedIn"
+            type="text"
+            placeholder="email" 
+            class="pa1 ph2 h2
+              b--black bg-white bw1 ba" />
 
-          <input ng-model="password" type="password" placeholder="password" class="pa1 ph2 h2
-            b--black-60 black-80 bg-white bw1 ba" />
+          <input 
+            v-model="store.password" 
+            v-if="!store.loggedIn"
+            type="password" 
+            placeholder="password" 
+            class="pa1 ph2 h2
+              b--black bg-white bw1 ba" />
 
           <button type="button" 
               class="dib mv1 pa1 ph3 h2 w4
-              b--black-80 black-80 bg-white bw1 ba
-              b pointer">
+              b--black bg-white bw1 ba
+              b pointer"
+              @click="store.login()">
             Login
           </button>
 
-          <button type="button" v-if="store.isAnon"
+          <button type="button"
               class="dib mv1 pa1 ph3 h2
               b--black-80 black-80 bg-white bw1 ba
-              b pointer">
+              b pointer"
+              @click="store.register()">
             Register
           </button>
         </span>
+        </template>
+        <template v-else>
+          <span class="f6 ttu black-70 mr2 dib">
+            {{store.email}}
+          </span>
+          <span>
+            <button type="button" 
+                class="dib mv1 pa1 ph3 h2 w4
+                b--black bg-white bw1 ba
+                b pointer"
+                @click="store.logout()">
+              Logout
+            </button>
+          </span>
+        </template>
       </div>
     </div>
   </header>
-  <main class="sans-serif ph2">
+  <main class="ph2">
       <div v-for="(p, pix) in store.palettes" :key="pix" class="mv3 flex">
         <p class="f6 b mh2">{{pix}}</p>
         <p class="mh2"><input v-model="p.name" class="input-reset ba b--black "></p>
@@ -108,6 +136,15 @@ const newPalette = () => {
         @click="newPalette()"
         >+ Add</button>
   </main>
+  
+  <transition>
+    <div class="z-1 tc
+      b--black bg-white bw1 ba
+      fixed left-2 right-2 bottom-2 h3 pa2"
+         v-if="store.message">
+         {{store.message}}
+      </div>
+  </transition>
 </template>
 <style>
 .color-picker-shim
@@ -127,4 +164,15 @@ const newPalette = () => {
   left: 16px;
   top: -22px;
 }
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 </style>
