@@ -14,16 +14,21 @@ onMounted(() => {
 const setColour = (event, pix, cix) => {
   console.log("setColour", event, pix, cix);
   store.palettes[pix].colours[cix] = colord(event);
+  if (store.selectedPalette === pix)
+    store.save(store.palettes[pix]);
 }
 
 const setHexColour = (event, pix, cix) => {
   const newHex = event.target.value;
   const newColour = colord(newHex);
-  console.log("setHexColour", newHex, pix, cix);
+  console.log("setHexColour");//, newHex, pix, cix);
   if (newHex.length < 7 || !newColour.isValid())
     return;
   
   store.palettes[pix].colours[cix] = newColour;
+
+  if (store.selectedPalette === pix)
+    store.save(store.palettes[pix]);
 }
 
 const newPalette = () => {
@@ -39,9 +44,9 @@ const newPalette = () => {
         🏯
       </div>
       <div class="db dtc-ns v-mid tl">
-        <a href="/" class="dib f5 f4-ns fw6 mt0 mb1 link black-70" title="Home">
+        <p class="dib f5 f4-ns fw6 mt0 mb1 link">
           Palace
-        </a>
+        </p>
       </div>
       <div class="db dtc-ns v-mid tl tr-ns mt2 mt0-ns">
         <template v-if="store.isAnon">
@@ -76,7 +81,7 @@ const newPalette = () => {
 
           <button type="button"
               class="dib mv1 pa1 ph3 h2
-              b--black-80 black-80 bg-white bw1 ba
+              b--black bg-white bw1 ba
               b pointer"
               @click="store.register()">
             Register
@@ -85,7 +90,7 @@ const newPalette = () => {
         </template>
         <template v-else>
           <span class="f6 ttu black-70 mr2 dib">
-            {{store.email}}
+            {{store.account.name}}
           </span>
           <span>
             <button type="button" 
@@ -102,8 +107,18 @@ const newPalette = () => {
   </header>
   <main class="ph2">
       <div v-for="(p, pix) in store.palettes" :key="pix" class="mv3 flex">
-        <p class="f6 b mh2">{{pix}}</p>
-        <p class="mh2"><input v-model="p.name" class="input-reset ba b--black "></p>
+        <p class="f6 b mh2">
+          <button class="h2 w2 pa0 br-pill ba b--red red bg-white tc b pointer" @click="store.delete(p)">
+            &times;
+          </button>
+        </p>
+        <p class="mh2">
+          <input 
+            v-model="p.name" 
+            class="input-reset ba b--gray w3"
+            @input="store.save(p)"
+            >
+        </p>
 
         <!-- Chips -->
         <div class="flex w-100">
@@ -121,8 +136,9 @@ const newPalette = () => {
             </span>
             <div class="color-picker-shim">
               <color-picker 
+                useType="pure"
                 :pureColor="store.palettes[pix].colours[cix].toHex()"
-                @update:pureColor="setColour($event, pix, cix)"
+                @pureColorChange="setColour($event, pix, cix)"
                  />
             </div>
           </div>

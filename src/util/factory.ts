@@ -15,7 +15,3 @@ export function newPalette(name : string): Palette {
         ]
     }
 }
-
-export function toName(index : number) : string {
-    //predicates
-}
