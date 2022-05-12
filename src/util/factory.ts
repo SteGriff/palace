@@ -1,7 +1,6 @@
 
 import type { Palette } from "@/types/palette";
 import {colord} from 'colord';
-import { predicates } from 'friendly-words';
 
 export function newPalette(name : string): Palette {
     return {

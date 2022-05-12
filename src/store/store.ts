@@ -7,7 +7,6 @@ import { toCloud, toLocal } from '../util/formatters';
 export interface IAppState {
     session: any
     account: any
-    documentInitialized : boolean
     email: string
     password: string
     message : string
@@ -57,7 +56,7 @@ export const usePalaceStore = defineStore('main', {
             try {
                 this.account = await api.createAccount(this.email, this.password, this.email);
                 console.log("Register:Account", this.account);
-                this.session = await api.createSession(email, password);
+                this.session = await api.createSession(this.email, this.password);
                 console.log("Register:Session", this.session);
                 this.setMessage ( "Registered!" );
             }
