@@ -1,5 +1,5 @@
 export const Config = {
-    endpoint : 'http://134.122.50.123/v1',
+    endpoint : 'https://api.sign.me.uk',
     project: 'palace',
     collectionID : 'palettes'
 }
